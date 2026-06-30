@@ -1,3 +1,5 @@
+using ImageTransformer.Apis;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
@@ -11,4 +13,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapImageTransformApi();
+
 app.Run();
+
+//  TODO: добавить логирование
+
+//  TODO: добавить трейсы и метрики
+
+//  TODO: добавить документацию

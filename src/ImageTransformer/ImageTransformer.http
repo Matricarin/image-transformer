@@ -1,6 +1,6 @@
 @ImageTransformer_HostAddress = http://localhost:5160
 
-GET {{ImageTransformer_HostAddress}}/weatherforecast/
+POST {{ImageTransformer_HostAddress}}/process/flip-v/0,150,0,200
 Accept: application/json
 
 ###
