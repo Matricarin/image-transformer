@@ -7,7 +7,7 @@ namespace ImageTransformer.Application.Services;
 public sealed class TransformationService : ITransformationService
 {
     private const int NinetyDegrees = 90;
-    public void Transform(TransformationType transformation)
+    public ReadOnlySpan<byte> Transform(TransformationType transformation, ReadOnlySpan<byte> bitmapBytes)
     {
         //var bitmap = SKBitmap.Decode(bytes); нужно передать span bytes
 

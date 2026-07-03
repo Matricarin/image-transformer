@@ -4,5 +4,5 @@ namespace ImageTransformer.Application.Interfaces;
 
 public interface ITransformationService
 {
-    void Transform(TransformationType transformation);
+    ReadOnlySpan<byte> Transform(TransformationType transformation, ReadOnlySpan<byte> bitmapBytes);
 }

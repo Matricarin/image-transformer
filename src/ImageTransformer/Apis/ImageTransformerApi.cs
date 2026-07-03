@@ -1,4 +1,5 @@
-﻿using ImageTransformer.Parameters;
+﻿using ImageTransformer.Application.Models;
+using ImageTransformer.Parameters;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ImageTransformer.Apis;
