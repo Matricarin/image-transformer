@@ -7,42 +7,68 @@ namespace ImageTransformer.Application.Services;
 public sealed class TransformationService : ITransformationService
 {
     private const int NinetyDegrees = 90;
+
     public ReadOnlySpan<byte> Transform(TransformationType transformation, ReadOnlySpan<byte> bitmapBytes)
     {
-        //var bitmap = SKBitmap.Decode(bytes); нужно передать span bytes
+        var bitmap = SKBitmap.Decode(bitmapBytes);
 
-        //var bitmap = new SKBitmap();
+        var info = bitmap.Info;
 
-        //var info = bitmap.Info;
-        //using (var surface = SKSurface.Create(info))
-        //{
-        //    var canvas = surface.Canvas;
-        //}
+        using (var surface = SKSurface.Create(info))
+        {
+            var canvas = surface.Canvas;
+            canvas.Save();
+            switch (transformation)
+            {
+                case TransformationType.RotateCounterClockwise:
+                {
+                    RotateClockwise(canvas);
+                    break;
+                }
+                case TransformationType.RotateClockwise:
+                {
+                    RotateCounterClockwise(canvas);
+                    break;
+                }
+                case TransformationType.FlipVertically:
+                {
+                    FlipVertically(canvas, bitmap.Height);
+                    break;
+                }
+                case TransformationType.FlipHorizontally:
+                {
+                    FlipHorizontally(canvas, bitmap.Width);
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(transformation), transformation, null);
+            }
+
+            canvas.Restore();
+        }
+
+        return bitmapBytes;
     }
 
-    private SKCanvas RotateClockwise(SKCanvas canvas)
+    private void RotateClockwise(SKCanvas canvas)
     {
         canvas.RotateDegrees(NinetyDegrees);
-        return canvas;
     }
 
-    private SKCanvas RotateCounterClockwise(SKCanvas canvas)
+    private void RotateCounterClockwise(SKCanvas canvas)
     {
         canvas.RotateDegrees(-NinetyDegrees);
-        return canvas;
     }
 
-    private SKCanvas FlipHorizontally(SKCanvas canvas, int width)
+    private void FlipHorizontally(SKCanvas canvas, int width)
     {
         canvas.Scale(-1, 1);
         canvas.Translate(-width, 0);
-        return canvas;
     }
 
-    private SKCanvas FlipVertically(SKCanvas canvas, int height)
+    private void FlipVertically(SKCanvas canvas, int height)
     {
         canvas.Scale(1, -1);
         canvas.Translate(0, -height);
-        return canvas;
     }
 }
