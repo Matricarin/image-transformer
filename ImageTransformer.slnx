@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/ImageTransformer.Application/ImageTransformer.Application.csproj" Id="3cce0d33-2a18-4e59-a5c9-ee6d000ed341" />
     <Project Path="src/ImageTransformer/ImageTransformer.csproj" Id="ca8518f4-448f-4872-b0d5-424c65ae8773" />
   </Folder>
 </Solution>
