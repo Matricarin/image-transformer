@@ -1,6 +1,5 @@
-﻿using ImageTransformer.Application.Models;
+﻿using ImageTransformer.Models;
 using ImageTransformer.Parameters;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ImageTransformer.Apis;
 
@@ -13,13 +12,26 @@ public static class ImageTransformerApi
         return api;
     }
 
-    private static async Task<Results<Ok, BadRequest, NoContent, ProblemHttpResult>> ProcessImage
+    private static async Task<IResult> ProcessImage
     (
         HttpContext context,
-        Transformation transform,
-        Coordinates coords
+        Transformation? transform,
+        string coords
     )
     {
-        throw new NotImplementedException();
+        if (transform is null)
+        {
+            return Results.BadRequest();
+        }
+
+        if (!Coordinates.TryParse(coords, out var coordinates))
+        {
+            return Results.BadRequest();
+        }
+
+        using (var memory = new MemoryStream())
+        {
+            await context.Request.Body.CopyToAsync(memory);
+        }
     }
 }

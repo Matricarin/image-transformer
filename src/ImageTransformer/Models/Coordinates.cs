@@ -1,4 +1,4 @@
-﻿namespace ImageTransformer.Application.Models;
+﻿namespace ImageTransformer.Models;
 
 public readonly record struct Coordinates(int X, int Y, int Width, int Height)
 {

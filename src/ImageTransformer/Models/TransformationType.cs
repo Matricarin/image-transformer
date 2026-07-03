@@ -1,4 +1,4 @@
-﻿namespace ImageTransformer.Application.Models;
+﻿namespace ImageTransformer.Models;
 
 public enum TransformationType
 {

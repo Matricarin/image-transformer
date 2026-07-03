@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using ImageTransformer.Application.Models;
+using ImageTransformer.Models;
 
 namespace ImageTransformer.Parameters;
 

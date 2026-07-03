@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImageTransformer.Application\ImageTransformer.Application.csproj" />
+    <PackageReference Include="SkiaSharp" Version="4.148.0" />
   </ItemGroup>
 
 </Project>

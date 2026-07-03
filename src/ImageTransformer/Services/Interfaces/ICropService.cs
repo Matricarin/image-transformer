@@ -1,6 +1,6 @@
-﻿using ImageTransformer.Application.Models;
+﻿using ImageTransformer.Models;
 
-namespace ImageTransformer.Application.Interfaces;
+namespace ImageTransformer.Services.Interfaces;
 
 public interface ICropService
 {

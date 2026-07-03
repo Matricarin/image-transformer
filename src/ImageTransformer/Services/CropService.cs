@@ -1,8 +1,8 @@
-﻿using ImageTransformer.Application.Interfaces;
-using ImageTransformer.Application.Models;
+﻿using ImageTransformer.Models;
+using ImageTransformer.Services.Interfaces;
 using SkiaSharp;
 
-namespace ImageTransformer.Application.Services;
+namespace ImageTransformer.Services;
 
 public sealed class CropService : ICropService
 {
