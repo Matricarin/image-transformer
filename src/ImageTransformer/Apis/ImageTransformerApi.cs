@@ -1,12 +1,13 @@
 ﻿using ImageTransformer.Apis.Parameters;
 using ImageTransformer.Models;
+using ImageTransformer.Services.Interfaces;
 using SkiaSharp;
 
 namespace ImageTransformer.Apis;
 
 public static class ImageTransformerApi
 {
-    private const long MaxFileSizeBytes = 100 * 1024; 
+    private const long MaxFileSizeBytes = 100 * 1024;
     private const int MaxDimension = 1000;
 
     public static RouteHandlerBuilder MapImageTransformApi(this IEndpointRouteBuilder app)
@@ -71,11 +72,20 @@ public static class ImageTransformerApi
                     }
                 }
             }
+
             memory.Position = 0;
 
             var bytes = new ReadOnlySpan<byte>(memory.ToArray());
 
-            throw new NotImplementedException();
+            var transformationService = context.RequestServices.GetService<ITransformationService>();
+
+            var transformedBytes = transformationService.Transform(transform.Type, bytes);
+
+            var cropService = context.RequestServices.GetService<ICropService>();
+
+            var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
+
+            return Results.File(croppedBitmap.ToArray());
         }
     }
 }
