@@ -1,5 +1,5 @@
-﻿using ImageTransformer.Models;
-using ImageTransformer.Parameters;
+﻿using ImageTransformer.Apis.Parameters;
+using ImageTransformer.Models;
 
 namespace ImageTransformer.Apis;
 

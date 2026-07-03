@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ImageTransformer.Models;
 
-namespace ImageTransformer.Parameters;
+namespace ImageTransformer.Apis.Parameters;
 
 public sealed class Transformation
 {
