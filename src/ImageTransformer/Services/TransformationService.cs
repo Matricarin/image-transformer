@@ -12,9 +12,7 @@ public sealed class TransformationService : ITransformationService
     {
         using var bitmap = SKBitmap.Decode(stream);
         
-        using var surface = SKSurface.Create(bitmap.Info);
-
-        var canvas = surface.Canvas;
+        var canvas = new SKCanvas(bitmap);
 
         canvas.Save();
         
@@ -45,6 +43,11 @@ public sealed class TransformationService : ITransformationService
         }
 
         canvas.Restore();
+
+        using var memoryStream = new MemoryStream();
+
+        bitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+
         return bitmap.Bytes;
     }
 
