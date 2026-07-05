@@ -4,5 +4,5 @@ namespace ImageTransformer.Services.Interfaces;
 
 public interface ITransformationService
 {
-    byte[] Transform(TransformationType transformation, MemoryStream stream);
+    byte[] Transform(TransformationType transformation, byte[] bitmapBytes);
 }

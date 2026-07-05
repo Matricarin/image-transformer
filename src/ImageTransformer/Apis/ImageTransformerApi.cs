@@ -78,7 +78,7 @@ public static class ImageTransformerApi
 
         memory.Position = 0;
 
-        var transformedBytes = transformationService.Transform(TransformationType.FlipHorizontally, memory);
+        var transformedBytes = transformationService.Transform(TransformationType.FlipHorizontally, memory.ToArray());
 
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
 

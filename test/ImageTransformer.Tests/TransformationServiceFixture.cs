@@ -24,39 +24,88 @@ public sealed class TransformationServiceFixture
 
         using var source = TestBitmapFactory.CreateRedBlueSquare(_testSquare);
 
+        var expectedPixel = source.GetPixel(0, 0);
+
         using var memoryStream = new MemoryStream();
 
         source.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
 
-        var transformedBitmap = _service.Transform(transformation, memoryStream);
+        var transformedBytes = _service.Transform
+        (
+            transformation,
+            memoryStream.ToArray()
+        );
 
+        using var transformedBitmap = SKBitmap.Decode(transformedBytes);
 
+        var pixel = transformedBitmap.GetPixel(1, 0);
+
+        Assert.True(pixel == expectedPixel);
     }
 
+    [Fact]
     public void RotateCounterClockwise_Success()
     {
-        {
-            var transformation = TransformationType.RotateCounterClockwise;
+        var transformation = TransformationType.RotateCounterClockwise;
 
-            using var source = TestBitmapFactory.CreateRedBlueSquare();
-        }
+        using var source = TestBitmapFactory.CreateRedBlueSquare(_testSquare);
+
+        var expectedPixel = source.GetPixel(1, 0);
+
+        using var memoryStream = new MemoryStream();
+
+        source.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+
+        var transformedBytes = _service.Transform(transformation, memoryStream.ToArray());
+
+        using var transformedBitmap = SKBitmap.Decode(transformedBytes);
+
+        var pixel = transformedBitmap.GetPixel(0, 0);
+
+        Assert.True(pixel == expectedPixel);
     }
 
+    [Fact]
     public void FlipVertically_Success()
     {
-        {
-            var transformation = TransformationType.FlipVertically;
+        var transformation = TransformationType.FlipVertically;
 
-            using var source = TestBitmapFactory.CreateRedBlueSquare();
-        }
+        using var source = TestBitmapFactory.CreateRedBlueSquare(_testSquare);
+
+        var expectedPixel = source.GetPixel(0, 0);
+
+        using var memoryStream = new MemoryStream();
+
+        source.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+
+        var transformedBytes = _service.Transform(transformation, memoryStream.ToArray());
+
+        using var transformedBitmap = SKBitmap.Decode(transformedBytes);
+
+        var pixel = transformedBitmap.GetPixel(0, 1);
+
+        Assert.True(pixel == expectedPixel);
     }
 
+    [Fact]
     public void FlipHorizontally_Success()
     {
-        {
-            var transformation = TransformationType.FlipHorizontally;
+        var transformation = TransformationType.RotateClockwise;
 
-            using var source = TestBitmapFactory.CreateRedBlueSquare();
-        }
+        using var source = TestBitmapFactory.CreateRedBlueSquare(_testSquare);
+
+        var expectedPixel = source.GetPixel(0, 0);
+
+        using var memoryStream = new MemoryStream();
+
+        source.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+
+        var transformedBytes = _service.Transform(transformation, memoryStream.ToArray());
+
+        using var transformedBitmap = SKBitmap.Decode(transformedBytes);
+
+        var pixel = transformedBitmap.GetPixel(1, 0);
+
+        Assert.True(pixel == expectedPixel);
     }
 }

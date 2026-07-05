@@ -9,7 +9,7 @@ public static class TestBitmapFactory
     {
         var source = new SKBitmap(squareData.Width, squareData.Height, SKColorType.Bgra8888, SKAlphaType.Opaque);
 
-        var canvas = new SKCanvas(source);
+        using var canvas = new SKCanvas(source);
 
         canvas.Save();
 
