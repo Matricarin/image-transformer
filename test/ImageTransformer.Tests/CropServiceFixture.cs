@@ -1,29 +1,17 @@
 ﻿using ImageTransformer.Models;
 using ImageTransformer.Services;
+using ImageTransformer.Tests.TestData;
 using SkiaSharp;
 
 namespace ImageTransformer.Tests;
 
 public sealed class CropServiceFixture
 {
-    private const string RedHex = "#FF0000";
-    private const string BlueHex = "#0000FF";
-
     [Fact]
     public void Crop_Success()
     {
-        using var source = new SKBitmap(2, 2, SKColorType.Bgra8888, SKAlphaType.Opaque);
-
-        var canvas = new SKCanvas(source);
-
-        canvas.Save();
-
-        canvas.DrawPoint(0, 0, SKColor.Parse(RedHex));
-        canvas.DrawPoint(0, 1, SKColor.Parse(RedHex));
-        canvas.DrawPoint(1, 0, SKColor.Parse(BlueHex));
-        canvas.DrawPoint(1, 1, SKColor.Parse(BlueHex));
-
-        canvas.Restore();
+        var testData = new TestTwoColorsSquare(Constants.RedHex, Constants.BlueHex, 2, 2);
+        using var source = TestBitmapFactory.CreateRedBlueSquare(testData);
 
         using var memory = new MemoryStream();
 
