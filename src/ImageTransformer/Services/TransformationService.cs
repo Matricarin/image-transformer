@@ -8,9 +8,9 @@ public sealed class TransformationService : ITransformationService
 {
     private const int NinetyDegrees = 90;
 
-    public ReadOnlySpan<byte> Transform(TransformationType transformation, ReadOnlySpan<byte> bitmapBytes)
+    public Span<byte> Transform(TransformationType transformation, MemoryStream stream)
     {
-        using var bitmap = SKBitmap.Decode(bitmapBytes);
+        using var bitmap = SKBitmap.Decode(stream);
 
         var info = bitmap.Info;
 
@@ -49,7 +49,7 @@ public sealed class TransformationService : ITransformationService
         canvas.Restore();
 
 
-        return bitmapBytes;
+        return bitmap.GetPixelSpan();
     }
 
     private void RotateClockwise(SKCanvas canvas)

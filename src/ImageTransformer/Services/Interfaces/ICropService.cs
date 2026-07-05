@@ -4,5 +4,5 @@ namespace ImageTransformer.Services.Interfaces;
 
 public interface ICropService
 {
-    ReadOnlySpan<byte> Crop(Coordinates coords, ReadOnlySpan<byte> bitmapBytes);
+    Span<byte> Crop(Coordinates coords, Span<byte> bitmapBytes);
 }

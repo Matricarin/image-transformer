@@ -74,12 +74,10 @@ public static class ImageTransformerApi
             }
 
             memory.Position = 0;
-
-            var bytes = new ReadOnlySpan<byte>(memory.ToArray());
-
+            
             var transformationService = context.RequestServices.GetService<ITransformationService>();
 
-            var transformedBytes = transformationService.Transform(transform.Type, bytes);
+            var transformedBytes = transformationService.Transform(transform.Type, memory);
 
             var cropService = context.RequestServices.GetService<ICropService>();
 
