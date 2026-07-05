@@ -1,9 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using ImageTransformer.Models;
 
 namespace ImageTransformer.Apis.Parameters;
 
-public sealed class Transformation
+public sealed class Transformation 
 {
     public TransformationType Type { get; set; }
 
@@ -11,4 +12,5 @@ public sealed class Transformation
     {
         throw new NotImplementedException();
     }
+
 }

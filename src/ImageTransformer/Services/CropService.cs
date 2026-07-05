@@ -6,7 +6,7 @@ namespace ImageTransformer.Services;
 
 public sealed class CropService : ICropService
 {
-    public Span<byte> Crop(Coordinates coords, Span<byte> bitmapBytes)
+    public byte[] Crop(Coordinates coords, byte[] bitmapBytes)
     {
         using var sourceBitmap = SKBitmap.Decode(bitmapBytes);
 
@@ -18,8 +18,8 @@ public sealed class CropService : ICropService
         (
             coords.X,
             coords.Y,
-            coords.X - coords.Width,
-            coords.Y - coords.Height
+            coords.X + coords.Width,
+            coords.Y + coords.Height
         );
 
         using (var canvas = new SKCanvas(destBitmap))
@@ -27,6 +27,10 @@ public sealed class CropService : ICropService
             canvas.DrawBitmap(sourceBitmap, sourceRect, destRect);
         }
 
-        return destBitmap.GetPixelSpan();
+        using var memoryStream = new MemoryStream();
+
+        destBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+
+        return memoryStream.ToArray();
     }
 }
