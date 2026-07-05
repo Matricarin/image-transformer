@@ -39,51 +39,50 @@ public static class ImageTransformerApi
             return Results.BadRequest();
         }
 
-        using (var memory = new MemoryStream())
+        using var memory = new MemoryStream();
+
+        await context.Request.Body.CopyToAsync(memory);
+
+        if (memory.Length > MaxFileSizeBytes)
         {
-            await context.Request.Body.CopyToAsync(memory);
+            return Results.BadRequest();
+        }
 
-            if (memory.Length > MaxFileSizeBytes)
+        memory.Position = 0;
+
+        using (var skStream = new SKManagedStream(memory))
+        {
+            using (var codec = SKCodec.Create(skStream))
             {
-                return Results.BadRequest();
-            }
-
-            memory.Position = 0;
-
-            using (var skStream = new SKManagedStream(memory))
-            {
-                using (var codec = SKCodec.Create(skStream))
+                if (codec is null)
                 {
-                    if (codec is null)
-                    {
-                        return Results.BadRequest();
-                    }
+                    return Results.BadRequest();
+                }
 
-                    var info = codec.Info;
+                var info = codec.Info;
 
-                    if (info.Width > MaxDimension || info.Height > MaxDimension)
-                    {
-                        return Results.BadRequest();
-                    }
+                if (info.Width > MaxDimension || info.Height > MaxDimension)
+                {
+                    return Results.BadRequest();
+                }
 
-                    if (info.ColorType != SKColorType.Bgra8888)
-                    {
-                        return Results.BadRequest();
-                    }
+                if (info.ColorType != SKColorType.Bgra8888)
+                {
+                    return Results.BadRequest();
                 }
             }
-
-            memory.Position = 0;
-            
-            var transformationService = context.RequestServices.GetService<ITransformationService>();
-
-            var transformedBytes = transformationService.Transform(transform.Type, memory);
-
-            var cropService = context.RequestServices.GetService<ICropService>();
-
-            var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
-
-            return Results.File(croppedBitmap.ToArray());
         }
+
+        memory.Position = 0;
+            
+        var transformationService = context.RequestServices.GetService<ITransformationService>();
+
+        var transformedBytes = transformationService.Transform(transform.Type, memory);
+
+        var cropService = context.RequestServices.GetService<ICropService>();
+
+        var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
+
+        return Results.File(croppedBitmap.ToArray());
     }
 }
