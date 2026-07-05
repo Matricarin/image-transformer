@@ -54,12 +54,12 @@ public sealed class TransformationService : ITransformationService
 
     private void RotateClockwise(SKCanvas canvas)
     {
-        canvas.RotateDegrees(NinetyDegrees);
+        canvas.RotateDegrees(-NinetyDegrees);
     }
 
     private void RotateCounterClockwise(SKCanvas canvas)
     {
-        canvas.RotateDegrees(-NinetyDegrees);
+        canvas.RotateDegrees(NinetyDegrees);
     }
 
     private void FlipHorizontally(SKCanvas canvas, int width)
