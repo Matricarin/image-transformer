@@ -2,4 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/ImageTransformer/ImageTransformer.csproj" Id="ca8518f4-448f-4872-b0d5-424c65ae8773" />
   </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/ImageTransformer.Tests/ImageTransformer.Tests.csproj" Id="165eea19-7bd6-4e65-9e2c-25de55c87d71" />
+  </Folder>
 </Solution>

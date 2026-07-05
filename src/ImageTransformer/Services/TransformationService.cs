@@ -11,10 +11,8 @@ public sealed class TransformationService : ITransformationService
     public Span<byte> Transform(TransformationType transformation, MemoryStream stream)
     {
         using var bitmap = SKBitmap.Decode(stream);
-
-        var info = bitmap.Info;
-
-        using var surface = SKSurface.Create(info);
+        
+        using var surface = SKSurface.Create(bitmap.Info);
 
         var canvas = surface.Canvas;
 
@@ -47,8 +45,6 @@ public sealed class TransformationService : ITransformationService
         }
 
         canvas.Restore();
-
-
         return bitmap.GetPixelSpan();
     }
 
