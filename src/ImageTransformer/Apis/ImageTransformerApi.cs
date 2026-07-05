@@ -21,7 +21,9 @@ public static class ImageTransformerApi
     (
         HttpContext context,
         Transformation? transform,
-        string coords
+        string coords,
+        ITransformationService transformationService,
+        ICropService cropService
     )
     {
         if (transform is null)
@@ -74,12 +76,8 @@ public static class ImageTransformerApi
         }
 
         memory.Position = 0;
-            
-        var transformationService = context.RequestServices.GetService<ITransformationService>();
 
         var transformedBytes = transformationService.Transform(transform.Type, memory);
-
-        var cropService = context.RequestServices.GetService<ICropService>();
 
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
 
