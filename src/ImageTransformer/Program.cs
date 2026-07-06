@@ -1,6 +1,8 @@
 using ImageTransformer.Apis;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder();
+
+builder.WebHost.UseUrls("http://localhost:8080");
 
 var app = builder.Build();
 
