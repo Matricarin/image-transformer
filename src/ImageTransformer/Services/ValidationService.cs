@@ -10,8 +10,8 @@ public sealed class ValidationService : IValidationService
     {
         coordinates = default;
 
-        return !Transformation.TryParse(transform, out transformation) &&
-               !Coordinates.TryParse(coords, out coordinates);
+        return Transformation.TryParse(transform, out transformation) &&
+               Coordinates.TryParse(coords, out coordinates);
     }
 
     public bool ValidateTransformation(int width, int height, TransformationType transformation, Coordinates coordinates)

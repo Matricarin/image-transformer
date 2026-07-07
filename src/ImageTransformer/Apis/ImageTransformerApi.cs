@@ -57,6 +57,11 @@ public static class ImageTransformerApi
                     return Results.BadRequest();
                 }
 
+                if (codec.EncodedFormat != SKEncodedImageFormat.Png)
+                {
+                    return Results.BadRequest();
+                }
+
                 var info = codec.Info;
 
                 if (info.Width > MaxDimension || info.Height > MaxDimension)
@@ -83,6 +88,6 @@ public static class ImageTransformerApi
 
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
 
-        return Results.File(croppedBitmap.ToArray());
+        return Results.File(croppedBitmap, "image/png", "processed-image.png");
     }
 }

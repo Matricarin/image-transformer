@@ -29,7 +29,7 @@ public sealed class CropService : ICropService
 
         using var memoryStream = new MemoryStream();
 
-        destBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+        destBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 100);
 
         return memoryStream.ToArray();
     }

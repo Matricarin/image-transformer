@@ -8,6 +8,7 @@ public static class ServicesExtensions
     {
         services.AddTransient<ITransformationService, TransformationService>();
         services.AddTransient<ICropService, CropService>();
+        services.AddTransient<IValidationService, ValidationService>();
         return services;
     }
 }

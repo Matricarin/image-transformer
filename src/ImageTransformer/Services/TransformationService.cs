@@ -56,7 +56,7 @@ public sealed class TransformationService : ITransformationService
 
         using var memoryStream = new MemoryStream();
 
-        targetBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 1);
+        targetBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 100);
 
         return memoryStream.ToArray();
     }
