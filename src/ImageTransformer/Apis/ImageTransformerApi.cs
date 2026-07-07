@@ -1,5 +1,4 @@
-﻿using ImageTransformer.Models;
-using ImageTransformer.Services.Interfaces;
+﻿using ImageTransformer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SkiaSharp;
 
@@ -22,11 +21,13 @@ public static class ImageTransformerApi
         HttpContext context,
         [FromServices] ITransformationService transformationService,
         [FromServices] ICropService cropService,
+        [FromServices] IValidationService validationService,
         string transform,
         string coords
     )
     {
-        if (!ValidateParameters(transform, coords, out var transformation, out var coordinates))
+        if (!validationService.ValidateParameters(transform, coords,
+                out var transformation, out var coordinates))
         {
             return Results.BadRequest();
         }
@@ -63,6 +64,12 @@ public static class ImageTransformerApi
                     return Results.BadRequest();
                 }
 
+                if (!validationService.ValidateTransformation(info.Width, info.Height,
+                        transformation.Type, coordinates))
+                {
+                    return Results.NoContent();
+                }
+
                 if (info.ColorType != SKColorType.Bgra8888)
                 {
                     return Results.BadRequest();
@@ -77,19 +84,5 @@ public static class ImageTransformerApi
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
 
         return Results.File(croppedBitmap.ToArray());
-    }
-
-    private static bool ValidateParameters
-    (
-        string transform,
-        string coords,
-        out Transformation transformation,
-        out Coordinates coordinates
-    )
-    {
-        coordinates = default;
-
-        return !Transformation.TryParse(transform, out transformation) &&
-               !Coordinates.TryParse(coords, out coordinates);
     }
 }
