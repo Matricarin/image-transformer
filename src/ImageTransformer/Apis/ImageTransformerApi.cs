@@ -26,12 +26,7 @@ public static class ImageTransformerApi
         string coords
     )
     {
-        if (!Transformation.TryParse(transform, out var transformation))
-        {
-            return Results.BadRequest();
-        }
-
-        if (!Coordinates.TryParse(coords, out var coordinates))
+        if (!ValidateParameters(transform, coords, out var transformation, out var coordinates))
         {
             return Results.BadRequest();
         }
@@ -82,5 +77,19 @@ public static class ImageTransformerApi
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
 
         return Results.File(croppedBitmap.ToArray());
+    }
+
+    private static bool ValidateParameters
+    (
+        string transform,
+        string coords,
+        out Transformation transformation,
+        out Coordinates coordinates
+    )
+    {
+        coordinates = default;
+
+        return !Transformation.TryParse(transform, out transformation) &&
+               !Coordinates.TryParse(coords, out coordinates);
     }
 }
