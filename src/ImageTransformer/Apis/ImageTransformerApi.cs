@@ -1,5 +1,4 @@
-﻿using ImageTransformer.Apis.Parameters;
-using ImageTransformer.Models;
+﻿using ImageTransformer.Models;
 using ImageTransformer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SkiaSharp;
@@ -23,7 +22,7 @@ public static class ImageTransformerApi
         HttpContext context,
         [FromServices] ITransformationService transformationService,
         [FromServices] ICropService cropService,
-        string transform,
+        Transformation? transform,
         string coords
     )
     {

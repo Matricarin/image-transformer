@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using ImageTransformer.Models;
+﻿using System.Reflection;
 
-namespace ImageTransformer.Apis.Parameters;
+namespace ImageTransformer.Models;
 
 public sealed class Transformation 
 {
