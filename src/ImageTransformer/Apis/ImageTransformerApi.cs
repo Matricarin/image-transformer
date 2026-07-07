@@ -16,17 +16,17 @@ public static class ImageTransformerApi
 
         return api;
     }
-    //  TODO: check 
+
     private static async Task<IResult> ProcessImage
     (
         HttpContext context,
         [FromServices] ITransformationService transformationService,
         [FromServices] ICropService cropService,
-        Transformation? transform,
+        string transform,
         string coords
     )
     {
-        if (transform is null)
+        if (!Transformation.TryParse(transform, out var transformation))
         {
             return Results.BadRequest();
         }
@@ -77,7 +77,7 @@ public static class ImageTransformerApi
 
         memory.Position = 0;
 
-        var transformedBytes = transformationService.Transform(TransformationType.FlipHorizontally, memory.ToArray());
+        var transformedBytes = transformationService.Transform(transformation.Type, memory.ToArray());
 
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
 

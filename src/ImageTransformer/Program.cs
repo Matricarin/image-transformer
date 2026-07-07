@@ -1,11 +1,9 @@
 using ImageTransformer.Apis;
+using ImageTransformer.Services;
 
 var builder = WebApplication.CreateBuilder();
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenLocalhost(8080);
-});
+builder.Services.AddImageTransformServices();
 
 var app = builder.Build();
 
