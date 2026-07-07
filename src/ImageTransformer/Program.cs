@@ -2,7 +2,10 @@ using ImageTransformer.Apis;
 
 var builder = WebApplication.CreateBuilder();
 
-builder.WebHost.UseUrls("http://localhost:8080");
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(8080);
+});
 
 var app = builder.Build();
 
