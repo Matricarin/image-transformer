@@ -21,9 +21,7 @@ public sealed class ImageTransformerSuccessTests
     [Fact]
     public async Task Post_RotateCW_Success()
     {
-        var testUri = new Uri("process/rotate-cw/239,120,39,32");
-
-        var uri = new Uri(_hostUri, testUri);
+        var uri = new Uri(_hostUri, "/process/rotate-cw/239,120,39,32");
 
         var client = _factory.CreateClient();
 
@@ -49,9 +47,7 @@ public sealed class ImageTransformerSuccessTests
     [Fact]
     public async Task Post_FlipH_Success()
     {
-        var testUri = new Uri("process/flip-h/86,66,42,38");
-
-        var uri = new Uri(_hostUri, testUri);
+        var uri = new Uri(_hostUri, "/process/flip-h/86,66,42,38");
 
         var client = _factory.CreateClient();
 
