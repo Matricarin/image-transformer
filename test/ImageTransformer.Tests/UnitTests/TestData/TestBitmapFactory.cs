@@ -4,7 +4,6 @@ namespace ImageTransformer.Tests.UnitTests.TestData;
 
 public static class TestBitmapFactory
 {
-
     public static SKBitmap CreateRedBlueSquare(TestTwoColorsSquare squareData)
     {
         var source = new SKBitmap(squareData.Width, squareData.Height, SKColorType.Bgra8888, SKAlphaType.Opaque);

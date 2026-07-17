@@ -1,11 +1,10 @@
-﻿namespace ImageTransformer.Tests.UnitTests
+﻿namespace ImageTransformer.Tests.UnitTests;
+
+public class InitTest
 {
-    public class InitTest
+    [Fact]
+    public void InitXUnit_Success()
     {
-        [Fact]
-        public void InitXUnit_Success()
-        {
-            Assert.True(true);
-        }
+        Assert.True(true);
     }
 }
