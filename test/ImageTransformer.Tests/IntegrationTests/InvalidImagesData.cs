@@ -17,7 +17,8 @@ public sealed class InvalidImagesData : IEnumerable<object[]>
 
     public IEnumerator<object[]> GetEnumerator()
     {
-        return ((IEnumerable<object[]>)InvalidImages).GetEnumerator();
+        return ((IEnumerable<object[]>)InvalidImages)
+            .GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

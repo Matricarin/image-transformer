@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace ImageTransformer.Tests.IntegrationTests;
 
-public sealed class ImageTransformerIntegrationFailedTests
+public sealed class ImageTransformerFailedTests
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly CancellationTokenSource _cts;
     private readonly WebApplicationFactory<Program> _factory;
     private readonly Uri _hostUri = new("https://localhost:7014");
 
-    public ImageTransformerIntegrationFailedTests(WebApplicationFactory<Program> factory)
+    public ImageTransformerFailedTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         _cts = new CancellationTokenSource();
@@ -30,7 +30,7 @@ public sealed class ImageTransformerIntegrationFailedTests
 
         var rawContent = new ByteArrayContent(imageContent);
 
-        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
+        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse(TestsConstants.PngMediaType);
 
         request.Content = rawContent;
 
@@ -50,9 +50,9 @@ public sealed class ImageTransformerIntegrationFailedTests
 
         var request = new HttpRequestMessage(HttpMethod.Post, uri);
 
-        var rawContent = new ByteArrayContent(ValidImagesData.ValidImagesBytes.First());
+        var rawContent = new ByteArrayContent(ValidImagesData.ValidImagesBytes.First().Value);
 
-        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
+        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse(TestsConstants.PngMediaType);
 
         request.Content = rawContent;
 
@@ -72,9 +72,9 @@ public sealed class ImageTransformerIntegrationFailedTests
 
         var request = new HttpRequestMessage(HttpMethod.Post, uri);
 
-        var rawContent = new ByteArrayContent(ValidImagesData.ValidImagesBytes.First());
+        var rawContent = new ByteArrayContent(ValidImagesData.ValidImagesBytes.First().Value);
 
-        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
+        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse(TestsConstants.PngMediaType);
 
         request.Content = rawContent;
 
