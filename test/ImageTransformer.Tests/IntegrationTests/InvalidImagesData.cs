@@ -2,20 +2,22 @@
 
 namespace ImageTransformer.Tests.IntegrationTests;
 
-public class InvalidImagesData : IEnumerable<object[]>
+public sealed class InvalidImagesData : IEnumerable<object[]>
 {
+    private static readonly string _folderPath =
+        Path.Combine(Environment.CurrentDirectory, "TestImages", "Failed");
+
+    public static readonly object[][] InvalidImages =
+    [
+        [File.ReadAllBytes(Path.Combine(_folderPath, "image1-3000-1000.png"))],
+        [File.ReadAllBytes(Path.Combine(_folderPath, "image1-537KB.png"))],
+        [File.ReadAllBytes(Path.Combine(_folderPath, "image1-bmp.bmp"))],
+        [File.ReadAllBytes(Path.Combine(_folderPath, "image2-122KB.png"))]
+    ];
+
     public IEnumerator<object[]> GetEnumerator()
     {
-        var path = Environment.CurrentDirectory + "/TestImages/Failed/";
-
-
-        yield return [File.ReadAllBytes(Path.Combine(path, "image1-3000-1000.png"))];
-
-        yield return [File.ReadAllBytes(Path.Combine(path, "image1-537KB.png"))];
-
-        yield return [File.ReadAllBytes(Path.Combine(path, "image1-bmp.bmp"))];
-
-        yield return [File.ReadAllBytes(Path.Combine(path, "image2-122KB.png"))];
+        return ((IEnumerable<object[]>)InvalidImages).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
