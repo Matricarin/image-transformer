@@ -60,4 +60,26 @@ public sealed class ImageTransformerIntegrationFailedTests
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
+
+    [Theory]
+    [InlineData("/process/rotate-cw/-500, -500,240,240")]
+    [InlineData("/process/flip-h/1000, 1000 ,-200,-200")]
+    public async Task Post_InvalidCoordinatesAfterTransformation_NoContent(string testUri)
+    {
+        var uri = new Uri(_hostUri, testUri);
+
+        var client = _factory.CreateClient();
+
+        var request = new HttpRequestMessage(HttpMethod.Post, uri);
+
+        var rawContent = new ByteArrayContent(ValidImagesData.ValidImagesBytes.First());
+
+        rawContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
+
+        request.Content = rawContent;
+
+        var response = await client.SendAsync(request, _cts.Token);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
 }
