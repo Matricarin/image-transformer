@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ResultImages\image1-239-120-39-32.png" />
     <None Remove="ResultImages\image1-86-66-42-38.png" />
     <None Remove="TestImages\Failed\image1-3000-1000.png" />
     <None Remove="TestImages\Failed\image1-537KB.png" />
@@ -19,10 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ResultImages\image1-239-120-39-32.png">
+    <Content Include="ResultImages\image1-86-66-42-38.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResultImages\image1-86-66-42-38.png">
+    <Content Include="ResultImages\image1-104-108-128-152.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestImages\Failed\image1-3000-1000.png">

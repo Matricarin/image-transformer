@@ -9,8 +9,11 @@ public sealed class ValidImagesData : IEnumerable<object[]>
 
     public static Dictionary<string, byte[]> ValidImagesBytes = new()
     {
-        { ValidTestsCases.RotateCwCase, File.ReadAllBytes(Path.Combine(_folderPath, "image1-500-500.png")) },
-        { ValidTestsCases.FlipHCase, File.ReadAllBytes(Path.Combine(_folderPath, "image1-250-250.png")) }
+        { ValidTestsCases.RotateCwCase,
+            File.ReadAllBytes(Path.Combine(_folderPath, "image1-500-500.png")) },
+
+        { ValidTestsCases.FlipVCase,
+            File.ReadAllBytes(Path.Combine(_folderPath, "image1-250-250.png")) }
     };
 
     public static readonly object[][] ValidImages =

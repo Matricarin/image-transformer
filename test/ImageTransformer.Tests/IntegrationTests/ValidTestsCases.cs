@@ -3,5 +3,5 @@
 public sealed class ValidTestsCases
 {
     public const string RotateCwCase = "rotate-cw";
-    public const string FlipHCase = "flip-h";
+    public const string FlipVCase = "flip-v";
 }
