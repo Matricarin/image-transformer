@@ -1,5 +1,8 @@
 <Solution>
-  <Folder Name="/load-tests/" />
+  <Folder Name="/load-tests/">
+    <File Path="load-tests/load-test.js" />
+    <File Path="load-tests/test-image.png" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/ImageTransformer/ImageTransformer.csproj" Id="ca8518f4-448f-4872-b0d5-424c65ae8773" />
   </Folder>
