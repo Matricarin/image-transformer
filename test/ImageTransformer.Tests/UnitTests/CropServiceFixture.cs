@@ -1,9 +1,9 @@
 ﻿using ImageTransformer.Models;
 using ImageTransformer.Services;
-using ImageTransformer.Tests.TestData;
+using ImageTransformer.Tests.UnitTests.TestData;
 using SkiaSharp;
 
-namespace ImageTransformer.Tests;
+namespace ImageTransformer.Tests.UnitTests;
 
 public sealed class CropServiceFixture
 {

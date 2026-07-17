@@ -1,4 +1,4 @@
-﻿namespace ImageTransformer.Tests
+﻿namespace ImageTransformer.Tests.UnitTests
 {
     public class InitTest
     {

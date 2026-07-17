@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace ImageTransformer.Tests.TestData;
+namespace ImageTransformer.Tests.UnitTests.TestData;
 
 public sealed class TestTwoColorsSquare
 {
