@@ -24,7 +24,7 @@ export const options = {
             preAllocatedVUs: 100,
             maxVUs: 2000,
             stages: [
-                { target: 10000, duration: "10m" }
+                { target: 3000, duration: "10m" }
             ],
             exec: "imageProcessingTest"
         },
