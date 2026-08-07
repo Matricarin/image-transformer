@@ -2,18 +2,7 @@ global:
   scrape_interval: 1s
 
 scrape_configs:
-  - job_name: 'image-transformer-api'
-    scrape_native_histograms: 
+  - job_name: 'image-transformer-api' 
     metrics_path: '/metrics'
-    honor_labels: 
-    honor_timestamps: 
-    scheme: 
-    follow_redirects: 
-    body_size_limit: 
-    sample_limit: 
-    label_limit: 
-    label_name_length_limit: 
-    label_value_length_limit: 
-    target_limit: 
     static_configs:
       - targets: ["host.docker.internal:5160"]
