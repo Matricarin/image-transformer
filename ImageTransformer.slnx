@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/configs/">
+    <File Path="docker-compose.yaml" />
+    <File Path="prometheus.yaml" />
+  </Folder>
   <Folder Name="/load-tests/">
     <File Path="load-tests/load-test.js" />
     <File Path="load-tests/test-image.png" />
