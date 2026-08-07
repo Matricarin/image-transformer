@@ -1,6 +1,7 @@
 ﻿using ImageTransformer.Models;
 using ImageTransformer.Services.Interfaces;
 using SkiaSharp;
+using System.Diagnostics;
 
 namespace ImageTransformer.Services;
 
@@ -10,55 +11,72 @@ public sealed class TransformationService : ITransformationService
 
     public byte[] Transform(TransformationType transformation, byte[] bitmapBytes)
     {
-        using var bitmap = SKBitmap.Decode(bitmapBytes);
+        ApplicationDiagnostics.TransformationBitmapSize.Record(bitmapBytes.Length, new KeyValuePair<string, object?>("type", transformation.ToString()));
+        ApplicationDiagnostics.TransformationOperationCount.Add(1, new KeyValuePair<string, object?>("type", transformation.ToString()));
 
-        var (targetWidth, targetHeight) = GetTargetSize
-        (
-            transformation,
-            bitmap
-        );
-
-        using var targetBitmap = new SKBitmap(targetWidth, targetHeight);
-
-        using var canvas = new SKCanvas(targetBitmap);
-
-        canvas.Save();
-
-        switch (transformation)
+        var sw = Stopwatch.StartNew();
+        try
         {
-            case TransformationType.RotateCounterClockwise:
+            using var bitmap = SKBitmap.Decode(bitmapBytes);
+
+            var (targetWidth, targetHeight) = GetTargetSize
+            (
+                transformation,
+                bitmap
+            );
+
+            using var targetBitmap = new SKBitmap(targetWidth, targetHeight);
+
+            using var canvas = new SKCanvas(targetBitmap);
+
+            canvas.Save();
+
+            switch (transformation)
             {
-                RotateClockwise(canvas, bitmap.Height);
-                break;
+                case TransformationType.RotateCounterClockwise:
+                {
+                    RotateClockwise(canvas, bitmap.Height);
+                    break;
+                }
+                case TransformationType.RotateClockwise:
+                {
+                    RotateCounterClockwise(canvas, bitmap.Width);
+                    break;
+                }
+                case TransformationType.FlipVertically:
+                {
+                    FlipVertically(canvas, bitmap.Height);
+                    break;
+                }
+                case TransformationType.FlipHorizontally:
+                {
+                    FlipHorizontally(canvas, bitmap.Width);
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(transformation), transformation, null);
             }
-            case TransformationType.RotateClockwise:
-            {
-                RotateCounterClockwise(canvas, bitmap.Width);
-                break;
-            }
-            case TransformationType.FlipVertically:
-            {
-                FlipVertically(canvas, bitmap.Height);
-                break;
-            }
-            case TransformationType.FlipHorizontally:
-            {
-                FlipHorizontally(canvas, bitmap.Width);
-                break;
-            }
-            default:
-                throw new ArgumentOutOfRangeException(nameof(transformation), transformation, null);
+
+            canvas.DrawBitmap(bitmap, 0, 0);
+
+            canvas.Restore();
+
+            using var memoryStream = new MemoryStream();
+
+            targetBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 100);
+
+            return memoryStream.ToArray();
         }
+        finally
+        {
+            sw.Stop();
 
-        canvas.DrawBitmap(bitmap, 0, 0);
-
-        canvas.Restore();
-
-        using var memoryStream = new MemoryStream();
-
-        targetBitmap.Encode(memoryStream, SKEncodedImageFormat.Png, 100);
-
-        return memoryStream.ToArray();
+            ApplicationDiagnostics.TransformationDuration.Record
+            (
+                sw.Elapsed.TotalMilliseconds,
+                new KeyValuePair<string, object?>("type", transformation.ToString())
+            );
+        }
     }
 
     private (int targetWidth, int targetHeight) GetTargetSize

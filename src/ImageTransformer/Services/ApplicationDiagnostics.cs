@@ -8,7 +8,7 @@ public static class ApplicationDiagnostics
 
     public static readonly Meter Meter = new(ServiceName, "1.0.0");
 
-    public static readonly Counter<long> HttpRequestTotal = Meter.CreateCounter<long>
+    public static readonly Counter<long> HttpRequestsTotal = Meter.CreateCounter<long>
     (
         "http.server.request.total",
         "requests",

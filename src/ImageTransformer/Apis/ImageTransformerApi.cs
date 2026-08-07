@@ -1,4 +1,5 @@
-﻿using ImageTransformer.Services.Interfaces;
+﻿using ImageTransformer.Services;
+using ImageTransformer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SkiaSharp;
 
@@ -29,11 +30,19 @@ public static class ImageTransformerApi
         if (!validationService.ValidateParameters(transform, coords,
                 out var transformation, out var coordinates))
         {
+            ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                new KeyValuePair<string, object?>("transform", transform),
+                new KeyValuePair<string, object?>("status_code", 400));
+
             return Results.BadRequest();
         }
 
         if (context.Request.ContentLength > MaxFileSizeBytes)
         {
+            ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                new KeyValuePair<string, object?>("transform", transform),
+                new KeyValuePair<string, object?>("status_code", 400));
+
             return Results.BadRequest();
         }
 
@@ -43,6 +52,10 @@ public static class ImageTransformerApi
 
         if (memory.Length > MaxFileSizeBytes)
         {
+            ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                new KeyValuePair<string, object?>("transform", transform),
+                new KeyValuePair<string, object?>("status_code", 400));
+
             return Results.BadRequest();
         }
 
@@ -54,11 +67,19 @@ public static class ImageTransformerApi
             {
                 if (codec is null)
                 {
+                    ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                        new KeyValuePair<string, object?>("transform", transform),
+                        new KeyValuePair<string, object?>("status_code", 400));
+
                     return Results.BadRequest();
                 }
 
                 if (codec.EncodedFormat != SKEncodedImageFormat.Png)
                 {
+                    ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                        new KeyValuePair<string, object?>("transform", transform),
+                        new KeyValuePair<string, object?>("status_code", 400));
+
                     return Results.BadRequest();
                 }
 
@@ -66,17 +87,29 @@ public static class ImageTransformerApi
 
                 if (info.Width > MaxDimension || info.Height > MaxDimension)
                 {
+                    ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                        new KeyValuePair<string, object?>("transform", transform),
+                        new KeyValuePair<string, object?>("status_code", 400));
+
                     return Results.BadRequest();
                 }
 
                 if (!validationService.ValidateTransformation(info.Width, info.Height,
                         transformation.Type, coordinates))
                 {
+                    ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                        new KeyValuePair<string, object?>("transform", transform),
+                        new KeyValuePair<string, object?>("status_code", 204));
+
                     return Results.NoContent();
                 }
 
                 if (info.ColorType != SKColorType.Bgra8888)
                 {
+                    ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+                        new KeyValuePair<string, object?>("transform", transform),
+                        new KeyValuePair<string, object?>("status_code", 400));
+
                     return Results.BadRequest();
                 }
             }
@@ -87,6 +120,10 @@ public static class ImageTransformerApi
         var transformedBytes = transformationService.Transform(transformation.Type, memory.ToArray());
 
         var croppedBitmap = cropService.Crop(coordinates, transformedBytes);
+
+        ApplicationDiagnostics.HttpRequestsTotal.Add(1,
+            new KeyValuePair<string, object?>("transform", transform),
+            new KeyValuePair<string, object?>("status_code", 200));
 
         return Results.File(croppedBitmap, "image/png", "processed-image.png");
     }
